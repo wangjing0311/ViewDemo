@@ -3,10 +3,11 @@ package com.ylw.viewdemo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,7 +43,11 @@ public class MainActivity extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             int[] location = new int[2];
             imageView.getLocationOnScreen(location);
-            new GuideDialog(button2, button4).onClick((v)->{}).show();
+            new GuideDialog(R.layout.guide_01, R.id.focus,
+                    button2,
+                    button3, button4).onClick(R.id.button7, (v) -> {
+
+            }).show();
         }, 100);
     }
 

@@ -40,15 +40,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            int[] location = new int[2];
-            imageView.getLocationOnScreen(location);
-            new GuideDialog(R.layout.guide_01, R.id.focus,
-                    button2,
-                    button3, button4).onClick(R.id.button7, (v) -> {
-
-            }).show();
-        }, 100);
+//        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+//            int[] location = new int[2];
+//            imageView.getLocationOnScreen(location);
+//            new GuideDialog(R.layout.guide_01, R.id.focus,
+//                    button2,
+//                    button3, button4).onClick(R.id.button7, (v) -> {
+//
+//            }).show();
+//        }, 100);
     }
 
     @Override

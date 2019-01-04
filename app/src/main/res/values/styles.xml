@@ -6,6 +6,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:actionMenuTextColor">#FF0000</item>
+        <!--<item name="android:popupMenuStyle">@</item>-->
     </style>
 
     <style name="GuideDialog" parent="AppTheme">
@@ -13,8 +16,8 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
     <!--<style name="GuideDialog" parent="Theme.AppCompat.DialogWhenLarge">-->
-        <!--<item name="android:backgroundDimEnabled">false</item>-->
-        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
+    <!--<item name="android:backgroundDimEnabled">false</item>-->
+    <!--<item name="android:windowBackground">@android:color/transparent</item>-->
     <!--</style>-->
 
 </resources>

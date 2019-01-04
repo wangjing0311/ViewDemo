@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LongPressCopyActivity">
+
+    <com.ylw.viewdemo.views.CopyMenuTextView
+        android:id="@+id/editText"
+        android:layout_width="251dp"
+        android:layout_height="116dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginLeft="96dp"
+        android:layout_marginTop="96dp"
+        android:singleLine="false"
+        android:text="但就在最近，南京大学姜宝玉领衔的科研团队，在两块蛙嘴龙(anurognathids)化石上发现了四种不同类型的毛发结构，且其中许多类型的毛发结构和恐龙及鸟类的相似[1,2]。这一发现改变了人们对翼龙只有单一毛发的“刻板印象”，也将羽毛状毛发结构的起源一下子提前了约7000万年，前移到2.5亿年前的三叠纪早期。该结果发表在12月17日的《自然-生态与演化》杂志上。"
+        android:textIsSelectable="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,4 +3,25 @@
     <declare-styleable name="IconRadioButton">
         <attr name="irbIcon" format="reference" />
     </declare-styleable>
+    <declare-styleable name="ShadowView">
+        <attr name="svType" format="enum">
+            <enum name="left" value="0" />
+            <enum name="top" value="1" />
+            <enum name="right" value="2" />
+            <enum name="bottom" value="3" />
+            <enum name="leftTop" value="4" />
+            <enum name="rightTop" value="5" />
+            <enum name="leftBottom" value="6" />
+            <enum name="rightBottom" value="7" />
+        </attr>
+        <attr name="svStartColor" format="color" />
+        <attr name="svEndColor" format="color" />
+        <attr name="svStopPosition" format="float" />
+    </declare-styleable>
+    <declare-styleable name="PaddingShadowLayout">
+        <attr name="pslRadius" format="dimension" />
+        <attr name="pslRadiusTop" format="dimension" />
+        <attr name="pslRadiusBottom" format="dimension" />
+        <attr name="pslColor" format="color" />
+    </declare-styleable>
 </resources>

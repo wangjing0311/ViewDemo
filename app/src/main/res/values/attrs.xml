@@ -19,6 +19,7 @@
         <attr name="svStopPosition" format="float" />
     </declare-styleable>
     <declare-styleable name="PaddingShadowLayout">
+        <attr name="pslShadowRadius" format="dimension" />
         <attr name="pslRadius" format="dimension" />
         <attr name="pslRadiusTop" format="dimension" />
         <attr name="pslRadiusBottom" format="dimension" />

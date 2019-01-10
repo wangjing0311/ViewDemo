@@ -73,7 +73,7 @@ public class PaddingShadowLayout extends FrameLayout {
         if (background instanceof ColorDrawable) {
             backgroundColor = ((ColorDrawable) background).getColor();
         }
-        setBackgroundDrawable(null);
+        setBackgroundDrawable(new ColorDrawable(0x00ffffff));
         backgroundColorPaint.setColor(backgroundColor);
     }
 

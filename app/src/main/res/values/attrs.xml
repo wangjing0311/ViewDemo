@@ -20,9 +20,7 @@
     </declare-styleable>
     <declare-styleable name="PaddingShadowLayout">
         <attr name="pslShadowRadius" format="dimension" />
-        <attr name="pslRadius" format="dimension" />
-        <attr name="pslRadiusTop" format="dimension" />
-        <attr name="pslRadiusBottom" format="dimension" />
-        <attr name="pslColor" format="color" />
+        <attr name="pslCornerRadius" format="dimension" />
+        <attr name="pslShadowColor" format="color" />
     </declare-styleable>
 </resources>

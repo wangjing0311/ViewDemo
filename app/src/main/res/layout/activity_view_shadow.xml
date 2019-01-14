@@ -39,13 +39,14 @@
         android:layout_marginTop="148dp"
         android:paddingLeft="15dp"
         android:paddingTop="30dp"
+        android:background="#44FF0000"
         android:paddingRight="15dp"
         android:paddingBottom="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:pslColor="#ffFFFF00"
-        app:pslRadius="10dp"
-        app:pslShadowRadius="13dp">
+        app:pslShadowColor="#ffFFFF00"
+        app:pslCornerRadius="10dp"
+        app:pslShadowRadius="8dp">
 
         <TextView
             android:layout_width="wrap_content"

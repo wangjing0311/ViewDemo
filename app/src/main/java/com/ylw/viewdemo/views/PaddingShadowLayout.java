@@ -15,13 +15,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 
 import com.ylw.viewdemo.R;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.animation.PathInterpolatorCompat;
 
 
 /**
@@ -40,15 +41,20 @@ import androidx.annotation.Nullable;
 public class PaddingShadowLayout extends FrameLayout {
 
     private static final String TAG = "PaddingShadowLayout";
+
+    private static final boolean DEBUG = true;
+
     private float shadowRadius;
     private RectF rectF;
     private float cornerRadius;
+    private Paint paintChart;
     private Paint paintLine;
     private Paint paintCorner;
     private Paint backgroundColorPaint;
     private int shadowColor;
     private LinearGradient shaderLine;
     private RadialGradient shaderCorner;
+    private int segment = 40;
 
     public PaddingShadowLayout(@NonNull Context context) {
         super(context);
@@ -89,6 +95,9 @@ public class PaddingShadowLayout extends FrameLayout {
             setBackground(new ColorDrawable(0x00ffffff));
         }
         backgroundColorPaint.setColor(backgroundColor);
+
+        paintChart = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paintChart.setColor(Color.RED);
     }
 
     @Override
@@ -100,24 +109,13 @@ public class PaddingShadowLayout extends FrameLayout {
 
     @Override
     protected void onDraw(Canvas canvas) {
-
-//        rectF.set(getPaddingLeft(), getPaddingTop(), getWidth() - getPaddingRight(), getHeight() - getPaddingBottom());
-//        visibleShadowPaint.setColor(0x220000ff);
-//        canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, visibleShadowPaint);
-
+        long time = System.currentTimeMillis();
         float w = getWidth();
         float h = getHeight();
         float l = 0;
         float t = 0;
         float r = 0;
         float b = 0;
-        Log.i(TAG, "onDraw: w:" + w + " h:" + h
-                + " pl:" + getPaddingLeft()
-                + " pt:" + getPaddingTop()
-                + " pr:" + getPaddingRight()
-                + " pb:" + getPaddingBottom()
-                + " shadowRadius:" + shadowRadius
-                + " cornerRadius:" + cornerRadius);
         if (getPaddingLeft() > 0) {
             l = getPaddingLeft() - shadowRadius;
             t = getPaddingTop() == 0 ? 0 : cornerRadius + getPaddingTop();
@@ -195,6 +193,14 @@ public class PaddingShadowLayout extends FrameLayout {
                 getPaddingRight() == 0 ? (getWidth() + 100) : (getWidth() - getPaddingRight()),
                 getPaddingBottom() == 0 ? (getHeight() + 100) : (getHeight() - getPaddingBottom()));
         canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, backgroundColorPaint);
+
+        if (DEBUG) {
+            int[] ints = colorsR();
+            for (int i = 0; i < ints.length - 1; i++) {
+                canvas.drawLine(i * 5, 255 - Color.alpha(ints[i]), (i + 1) * 5, 255 - Color.alpha(ints[i + 1]), paintChart);
+            }
+            Log.i("TAG - 2019/1/17", "PaddingShadowLayout - onDraw - time : " + (System.currentTimeMillis() - time));
+        }
     }
 
     private void drawShadowLine(Canvas canvas, float x, float y, float length, float degrees) {
@@ -235,27 +241,20 @@ public class PaddingShadowLayout extends FrameLayout {
         mCornerShadowPath.moveTo(l, b);
         mCornerShadowPath.arcTo(rectF, 180, 90f, true);
         canvas.drawPath(mCornerShadowPath, paintCorner);
-
-//        rectF.set(l, t, r, b);
-//        paint.setColor(0x9900ff00);
-//        paint.setShader(null);
-//        paint.setStrokeWidth(1);
-//        canvas.drawRect(rectF, paint);
         canvas.restore();
     }
 
     int[] colors() {
         int startColor = shadowColor;
-        int[] ints = new int[11];
+        int[] ints = new int[segment];
         int startAlpha = Color.alpha(startColor);
         int r = Color.red(startColor);
         int g = Color.green(startColor);
         int b = Color.blue(startColor);
         int endAlpha = 0;
-        DecelerateInterpolator interpolator = new DecelerateInterpolator();
+        Interpolator interpolator = new ShadowColorInterpolator();
         for (int i = 0; i < ints.length; i++) {
             float interpolation = interpolator.getInterpolation(i * 1f / (ints.length - 1));
-            interpolation = (float) Math.sqrt(interpolation);
             ints[i] = Color.argb(
                     (int) (startAlpha + (endAlpha - startAlpha) * interpolation),
                     r, g, b);
@@ -265,22 +264,25 @@ public class PaddingShadowLayout extends FrameLayout {
 
 
     float[] positions() {
-        return new float[]{0, 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1};
+        float[] poss = new float[segment];
+        for (int i = 1; i < segment; i++) {
+            poss[i] = i * 1f / (segment - 1);
+        }
+        return poss;
     }
 
 
     int[] colorsR() {
         int startColor = shadowColor;
-        int[] ints = new int[12];
+        int[] ints = new int[segment + 1];
         int startAlpha = Color.alpha(startColor);
         int r = Color.red(startColor);
         int g = Color.green(startColor);
         int b = Color.blue(startColor);
         int endAlpha = 0;
-        DecelerateInterpolator interpolator = new DecelerateInterpolator();
-        for (int i = 1; i < ints.length; i++) {
-            float interpolation = interpolator.getInterpolation((i - 1) * 1f / (ints.length - 2));
-            interpolation = (float) Math.sqrt(interpolation);
+        Interpolator interpolator = new ShadowColorInterpolator();
+        for (int i = 2; i < ints.length; i++) {
+            float interpolation = interpolator.getInterpolation((i) * 1f / (ints.length - 2));
             ints[i] = Color.argb(
                     (int) (startAlpha + (endAlpha - startAlpha) * interpolation),
                     r, g, b);
@@ -292,11 +294,48 @@ public class PaddingShadowLayout extends FrameLayout {
     float[] positionsR() {
         float r = shadowRadius + cornerRadius;
         float start = cornerRadius / r;
-        float[] poss = new float[12];
+        float[] poss = new float[segment + 1];
         poss[1] = start;
-        for (int i = 0; i < 11; i++) {
-            poss[i + 1] = (cornerRadius + shadowRadius * i / 10) / r;
+        for (int i = 0; i < poss.length - 1; i++) {
+            poss[i + 1] = (cornerRadius + shadowRadius * i / (poss.length - 2)) / r;
         }
         return poss;
     }
+
+    private class ShadowColorInterpolator implements Interpolator {
+
+        Interpolator interpolator;
+
+        ShadowColorInterpolator() {
+            interpolator = PathInterpolatorCompat.create(controlX1, controlY1, controlX2, controlY2);
+        }
+
+
+        @Override
+        public float getInterpolation(float input) {
+            return interpolator.getInterpolation(input);
+        }
+    }
+
+    float controlX1 = 0.35f;
+    float controlY1 = 1.0f;
+    float controlX2 = 1.0f;
+    float controlY2 = 1.0f;
+
+    public void setControl1(float controlX1, float controlY1) {
+        this.controlX1 = controlX1;
+        this.controlY1 = controlY1;
+        shaderCorner = null;
+        shaderLine = null;
+        postInvalidate();
+    }
+
+    public void setControl2(float controlX2, float controlY2) {
+        this.controlX2 = controlX2;
+        this.controlY2 = controlY2;
+        shaderCorner = null;
+        shaderLine = null;
+        postInvalidate();
+    }
+
 }

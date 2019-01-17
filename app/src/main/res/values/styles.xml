@@ -15,9 +15,10 @@
         <!--<item name="android:backgroundDimEnabled">false</item>-->
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
-    <!--<style name="GuideDialog" parent="Theme.AppCompat.DialogWhenLarge">-->
-    <!--<item name="android:backgroundDimEnabled">false</item>-->
-    <!--<item name="android:windowBackground">@android:color/transparent</item>-->
-    <!--</style>-->
+
+    <style name="FullScreenDialog" parent="Theme.AppCompat.DialogWhenLarge">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 
 </resources>

@@ -16,7 +16,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:text="取消" />
+            android:text="取消"
+            android:textColor="#333333" />
+
+        <TextView
+            android:id="@+id/year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="2019"
+            android:textColor="#333333"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/ok"
@@ -24,7 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:text="确定" />
+            android:text="确定"
+            android:textColor="#007AFF" />
     </FrameLayout>
 
     <LinearLayout

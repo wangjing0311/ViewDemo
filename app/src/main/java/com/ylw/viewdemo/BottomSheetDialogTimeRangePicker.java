@@ -13,6 +13,7 @@ import com.contrarywind.listener.OnItemSelectedListener;
 import com.contrarywind.view.WheelView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,16 +29,27 @@ public class BottomSheetDialogTimeRangePicker {
     private static final String TAG = "DialogTimeRangePicker";
     private Activity context;
     private TextView curSelect;
-    private Date startDate;
-    private Date endDate;
+    private Date startDate = new Date(curMillis());
+    private Date endDate = new Date(curMillis());
     private int dayOfMonth = 30;
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
     public BottomSheetDialogTimeRangePicker(MainMenuActivity activity) {
         this.context = activity;
     }
 
+    public BottomSheetDialogTimeRangePicker setStartDate(Date date) {
+        startDate = date;
+        return this;
+    }
+
+    public BottomSheetDialogTimeRangePicker setEndDate(Date date) {
+        endDate = date;
+        return this;
+    }
+
     @SuppressLint("ClickableViewAccessibility")
-    public void show(IOnSelectDateTime onSelectDateTime) {
+    public void show(IOnSelectDateRange onSelectDateTime) {
         final BottomSheetDialog mBottomSheetDialog = new BottomSheetDialog(context);
         View dialogView = context.getLayoutInflater().inflate(R.layout.bottom_sheet_dialog_picker_style_3, null);
         WheelView wheelView1 = dialogView.findViewById(R.id.wheel1);
@@ -47,20 +59,45 @@ public class BottomSheetDialogTimeRangePicker {
         Button ok = dialogView.findViewById(R.id.ok);
         TextView startTime = dialogView.findViewById(R.id.start_time);
         TextView endTime = dialogView.findViewById(R.id.end_time);
+        startTime.setText(format.format(startDate));
+        endTime.setText(format.format(endDate));
         curSelect = startTime;
-        startTime.setOnClickListener(v -> curSelect = startTime);
-        endTime.setOnClickListener(v -> curSelect = endTime);
+        startTime.setOnClickListener(v -> {
+            curSelect = startTime;
+            Calendar calendar = Calendar.getInstance();
+            try {
+                calendar.setTime(format.parse(curSelect.getText().toString()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            wheelView1.setCurrentItem(calendar.get(Calendar.YEAR) - Calendar.getInstance().get(Calendar.YEAR));
+            wheelView2.setCurrentItem(calendar.get(Calendar.MONTH));
+            wheelView3.setCurrentItem(calendar.get(Calendar.DAY_OF_MONTH) - 1);
+        });
+        endTime.setOnClickListener(v -> {
+            curSelect = endTime;
+            Calendar calendar = Calendar.getInstance();
+            try {
+                calendar.setTime(format.parse(curSelect.getText().toString()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            wheelView1.setCurrentItem(calendar.get(Calendar.YEAR) - Calendar.getInstance().get(Calendar.YEAR));
+            wheelView2.setCurrentItem(calendar.get(Calendar.MONTH));
+            wheelView3.setCurrentItem(calendar.get(Calendar.DAY_OF_MONTH) - 1);
+        });
         cancel.setOnClickListener(v -> mBottomSheetDialog.dismiss());
         ok.setOnClickListener(v -> {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(new Date(curMillis()));
-            calendar.add(Calendar.DAY_OF_WEEK, wheelView1.getCurrentItem());
-            calendar.set(Calendar.HOUR_OF_DAY, wheelView2.getCurrentItem());
-            calendar.set(Calendar.MINUTE, wheelView3.getCurrentItem());
-            calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MILLISECOND, 0);
+            Date start = null;
+            Date end = null;
+            try {
+                start = format.parse(startTime.getText().toString());
+                end = format.parse(endTime.getText().toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             mBottomSheetDialog.dismiss();
-            onSelectDateTime.onResult(calendar.getTime());
+            onSelectDateTime.onResult(start, end);
         });
         View.OnTouchListener touchHandler = (v, e) -> {
             v.getParent().requestDisallowInterceptTouchEvent(true);
@@ -85,7 +122,7 @@ public class BottomSheetDialogTimeRangePicker {
             @Override
             public Object getItem(int index) {
                 Calendar calendar = Calendar.getInstance();
-                calendar.setTime(new Date());
+                calendar.setTime(new Date(curMillis()));
                 calendar.add(Calendar.YEAR, index);
                 if (index == wheelView1.getCurrentItem()) {
                     initViews(wheelView1, wheelView2, wheelView3);
@@ -149,9 +186,10 @@ public class BottomSheetDialogTimeRangePicker {
         wheelView3.setAdapter(adapter3);
         wheelView1.setCurrentItem(0);
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
+        calendar.setTime(startDate);
         wheelView2.setCurrentItem(calendar.get(Calendar.MONTH));
-        wheelView3.setCurrentItem(calendar.get(Calendar.DAY_OF_MONTH) - 1);
+        wheelView3.setCurrentItem(calendar.get(Calendar.DAY_OF_MONTH));
+
         mBottomSheetDialog.setContentView(dialogView);
         mBottomSheetDialog.show();
     }
@@ -160,14 +198,14 @@ public class BottomSheetDialogTimeRangePicker {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date(curMillis()));
         calendar.set(calendar.get(Calendar.YEAR) + wheelView1.getCurrentItem(), wheelView2.getCurrentItem() + 1, 0);
-        if (wheelView3.getCurrentItem() >= calendar.get(Calendar.DAY_OF_MONTH)) {
+        if (wheelView3.getCurrentItem() > calendar.get(Calendar.DAY_OF_MONTH) - 1) {
             dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
             wheelView3.setCurrentItem(dayOfMonth - 1);
         }
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        Log.i(TAG, "initViews: dayOfMonth:" + dayOfMonth);
         wheelView3.postInvalidate();
-        calendar.set(calendar.get(Calendar.DAY_OF_WEEK_IN_MONTH), wheelView3.getCurrentItem() + 1);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        calendar.set(Calendar.DAY_OF_MONTH, wheelView3.getCurrentItem() + 1);
         curSelect.setText(format.format(calendar.getTime()));
     }
 
@@ -175,7 +213,7 @@ public class BottomSheetDialogTimeRangePicker {
         return System.currentTimeMillis();
     }
 
-    interface IOnSelectDateTime {
-        void onResult(Date date);
+    interface IOnSelectDateRange {
+        void onResult(Date start, Date end);
     }
 }

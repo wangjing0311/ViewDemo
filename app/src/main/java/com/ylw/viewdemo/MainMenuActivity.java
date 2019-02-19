@@ -6,6 +6,8 @@ import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,9 +55,13 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void showDateRangePicker(View view) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, 3);
         new BottomSheetDialogTimeRangePicker(this)
-                .show(date->{
-                    Toast.makeText(this, date.toString(), Toast.LENGTH_SHORT).show();
+                .setStartDate(new Date())
+                .setEndDate(calendar.getTime())
+                .show((start, end) -> {
+                    Toast.makeText(this, start.toString() + " - " + end.toString(), Toast.LENGTH_SHORT).show();
                 });
     }
 }

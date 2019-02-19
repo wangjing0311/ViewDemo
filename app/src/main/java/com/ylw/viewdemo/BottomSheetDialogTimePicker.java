@@ -19,9 +19,6 @@ import java.util.Locale;
 /**
  * 日期时间选择器
  * <p>
- * 选择器样式：<br/>
- * <img src="http://192.168.0.34/AndroidGroup/up366TeacherV4/uploads/ebb1dd78bd224d1403db94692d57f16b/image.png"/>
- * <p>
  * Created by 袁立位 on 2019/2/18 15:50.
  */
 public class BottomSheetDialogTimePicker {
@@ -34,11 +31,14 @@ public class BottomSheetDialogTimePicker {
 
     /**
      * 日期时间选择器
+     * <p>
+     * 选择器样式：<br/>
+     * <img src="http://192.168.0.34/AndroidGroup/up366TeacherV4/uploads/ebb1dd78bd224d1403db94692d57f16b/image.png"/>
      */
     @SuppressLint("ClickableViewAccessibility")
-    public void showMMDDHHmm(IOnSelectDateTime onSelectDateTime) {
+    public void show(IOnSelectDateTime onSelectDateTime) {
         final BottomSheetDialog mBottomSheetDialog = new BottomSheetDialog(context);
-        View dialogView = context.getLayoutInflater().inflate(R.layout.dialog_time_picker_style_1, null);
+        View dialogView = context.getLayoutInflater().inflate(R.layout.bottom_sheet_dialog_picker_style_1, null);
         WheelView wheelView1 = dialogView.findViewById(R.id.wheel1);
         WheelView wheelView2 = dialogView.findViewById(R.id.wheel2);
         WheelView wheelView3 = dialogView.findViewById(R.id.wheel3);

@@ -51,4 +51,11 @@ public class MainMenuActivity extends AppCompatActivity {
                     Toast.makeText(MainMenuActivity.this, (String) obj, Toast.LENGTH_SHORT).show();
                 });
     }
+
+    public void showDateRangePicker(View view) {
+        new BottomSheetDialogTimeRangePicker(this)
+                .show(date->{
+                    Toast.makeText(this, date.toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
 }

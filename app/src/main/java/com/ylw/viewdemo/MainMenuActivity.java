@@ -27,7 +27,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     void showPickDialog() {
-        new TimePickerDialog(this).showMMDDHHmm(d -> {
+        new BottomSheetDialogTimePicker(this).showMMDDHHmm(d -> {
             Toast.makeText(this, d.toString(), Toast.LENGTH_SHORT).show();
         });
 //        final BottomSheetDialog mBottomSheetDialog = new BottomSheetDialog(this);

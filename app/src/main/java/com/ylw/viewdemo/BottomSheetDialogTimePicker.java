@@ -24,11 +24,11 @@ import java.util.Locale;
  * <p>
  * Created by 袁立位 on 2019/2/18 15:50.
  */
-public class TimePickerDialog {
+public class BottomSheetDialogTimePicker {
 
     private Activity context;
 
-    public TimePickerDialog(MainMenuActivity activity) {
+    public BottomSheetDialogTimePicker(MainMenuActivity activity) {
         this.context = activity;
     }
 

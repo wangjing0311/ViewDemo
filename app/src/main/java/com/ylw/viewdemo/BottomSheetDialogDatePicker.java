@@ -27,7 +27,7 @@ public class BottomSheetDialogDatePicker {
     private Activity context;
     private Date startDate = new Date(curMillis());
 
-    public BottomSheetDialogDatePicker(MainMenuActivity activity) {
+    public BottomSheetDialogDatePicker(Activity activity) {
         this.context = activity;
     }
 

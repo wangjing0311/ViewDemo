@@ -25,7 +25,7 @@ public class BottomSheetDialogDateTimePicker {
 
     private Activity context;
 
-    public BottomSheetDialogDateTimePicker(MainMenuActivity activity) {
+    public BottomSheetDialogDateTimePicker(Activity activity) {
         this.context = activity;
     }
 
@@ -145,7 +145,7 @@ public class BottomSheetDialogDateTimePicker {
         mBottomSheetDialog.show();
     }
 
-    interface IOnSelectDateTime {
+    public interface IOnSelectDateTime {
         void onResult(Date date);
     }
 }

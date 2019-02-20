@@ -28,7 +28,7 @@ public class BottomSheetDialogPickerOne<T> {
     private IDataRender<T> render = Object::toString;
     private boolean isCyclic = false;
 
-    public BottomSheetDialogPickerOne(MainMenuActivity activity) {
+    public BottomSheetDialogPickerOne(Activity activity) {
         this.context = activity;
     }
 
@@ -101,11 +101,11 @@ public class BottomSheetDialogPickerOne<T> {
         mBottomSheetDialog.show();
     }
 
-    interface IOnSelectItem {
+    public interface IOnSelectItem {
         void onResult(Object obj);
     }
 
-    interface IDataRender<T> {
+    public interface IDataRender<T> {
         String onRender(T obj);
     }
 }

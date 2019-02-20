@@ -15,7 +15,10 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * 日期时间段选择器
+ * 日期选择器
+ * <p>
+ * 选择器样式：<br/>
+ * <img src="http://192.168.0.34/AndroidGroup/up366TeacherV4/uploads/ee11b37075182398c625a3bec7aac615/image.png"/>
  * <p>
  * Created by 袁立位 on 2019/2/20 14:18.
  */

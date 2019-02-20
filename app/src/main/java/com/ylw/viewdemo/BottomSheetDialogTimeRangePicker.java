@@ -21,6 +21,9 @@ import java.util.Locale;
 /**
  * 日期时间段选择器
  * <p>
+ * 选择器样式：<br/>
+ * <img src="http://192.168.0.34/AndroidGroup/up366TeacherV4/uploads/b4b5b15d13805b578cb6fd6a01615d18/image.png"/>
+ * <p>
  * Created by 袁立位 on 2019/2/19 14:06.
  */
 public class BottomSheetDialogTimeRangePicker {

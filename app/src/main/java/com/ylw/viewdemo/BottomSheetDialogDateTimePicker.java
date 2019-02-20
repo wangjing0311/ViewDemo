@@ -33,7 +33,7 @@ public class BottomSheetDialogDateTimePicker {
      * 日期时间选择器
      * <p>
      * 选择器样式：<br/>
-     * <img src="http://192.168.0.34/AndroidGroup/up366TeacherV4/uploads/ebb1dd78bd224d1403db94692d57f16b/image.png"/>
+     * <img src="http://192.168.0.34/AndroidGroup/up366TeacherV4/uploads/4024024147a41f21855af2c76d4e5330/image.png"/>
      */
     @SuppressLint("ClickableViewAccessibility")
     public void show(IOnSelectDateTime onSelectDateTime) {

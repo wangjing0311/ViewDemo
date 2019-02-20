@@ -16,6 +16,9 @@ import java.util.List;
 /**
  * 通用单项选择器
  * <p>
+ * * 选择器样式：<br/>
+ * <img src="http://192.168.0.34/AndroidGroup/up366TeacherV4/uploads/169484e76a1136a76b59b1bc38ace3eb/image.png"/>
+ *
  * Created by 袁立位 on 2019/2/19 13:00.
  */
 public class BottomSheetDialogPickerOne<T> {

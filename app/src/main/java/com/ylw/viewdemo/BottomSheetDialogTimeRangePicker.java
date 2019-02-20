@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.contrarywind.adapter.WheelAdapter;
-import com.contrarywind.listener.OnItemSelectedListener;
 import com.contrarywind.view.WheelView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -32,6 +31,8 @@ public class BottomSheetDialogTimeRangePicker {
     private Date startDate = new Date(curMillis());
     private Date endDate = new Date(curMillis());
     private int dayOfMonth = 30;
+    private TextView startTimeView;
+    private TextView endTimeView;
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
     public BottomSheetDialogTimeRangePicker(MainMenuActivity activity) {
@@ -57,13 +58,13 @@ public class BottomSheetDialogTimeRangePicker {
         WheelView wheelView3 = dialogView.findViewById(R.id.wheel3);
         Button cancel = dialogView.findViewById(R.id.cancel);
         Button ok = dialogView.findViewById(R.id.ok);
-        TextView startTime = dialogView.findViewById(R.id.start_time);
-        TextView endTime = dialogView.findViewById(R.id.end_time);
-        startTime.setText(format.format(startDate));
-        endTime.setText(format.format(endDate));
-        curSelect = startTime;
-        startTime.setOnClickListener(v -> {
-            curSelect = startTime;
+        startTimeView = dialogView.findViewById(R.id.start_time);
+        endTimeView = dialogView.findViewById(R.id.end_time);
+        startTimeView.setText(format.format(startDate));
+        endTimeView.setText(format.format(endDate));
+        curSelect = startTimeView;
+        startTimeView.setOnClickListener(v -> {
+            curSelect = startTimeView;
             Calendar calendar = Calendar.getInstance();
             try {
                 calendar.setTime(format.parse(curSelect.getText().toString()));
@@ -74,8 +75,8 @@ public class BottomSheetDialogTimeRangePicker {
             wheelView2.setCurrentItem(calendar.get(Calendar.MONTH));
             wheelView3.setCurrentItem(calendar.get(Calendar.DAY_OF_MONTH) - 1);
         });
-        endTime.setOnClickListener(v -> {
-            curSelect = endTime;
+        endTimeView.setOnClickListener(v -> {
+            curSelect = endTimeView;
             Calendar calendar = Calendar.getInstance();
             try {
                 calendar.setTime(format.parse(curSelect.getText().toString()));
@@ -88,11 +89,11 @@ public class BottomSheetDialogTimeRangePicker {
         });
         cancel.setOnClickListener(v -> mBottomSheetDialog.dismiss());
         ok.setOnClickListener(v -> {
-            Date start = null;
-            Date end = null;
+            Date start = new Date();
+            Date end = new Date();
             try {
-                start = format.parse(startTime.getText().toString());
-                end = format.parse(endTime.getText().toString());
+                start = format.parse(startTimeView.getText().toString());
+                end = format.parse(endTimeView.getText().toString());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -107,12 +108,7 @@ public class BottomSheetDialogTimeRangePicker {
         wheelView1.setOnTouchListener(touchHandler);
         wheelView2.setOnTouchListener(touchHandler);
         wheelView3.setOnTouchListener(touchHandler);
-        OnItemSelectedListener onSelectedListener = index -> {
-            initViews(wheelView1, wheelView2, wheelView3);
-        };
-        wheelView1.setOnItemSelectedListener(onSelectedListener);
-        wheelView2.setOnItemSelectedListener(onSelectedListener);
-        wheelView3.setOnItemSelectedListener(onSelectedListener);
+
         WheelAdapter adapter1 = new WheelAdapter() {
             @Override
             public int getItemsCount() {
@@ -195,6 +191,7 @@ public class BottomSheetDialogTimeRangePicker {
     }
 
     private void initViews(WheelView wheelView1, WheelView wheelView2, WheelView wheelView3) {
+        resetTextColor();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date(curMillis()));
         calendar.set(calendar.get(Calendar.YEAR) + wheelView1.getCurrentItem(), wheelView2.getCurrentItem() + 1, 0);
@@ -203,10 +200,15 @@ public class BottomSheetDialogTimeRangePicker {
             wheelView3.setCurrentItem(dayOfMonth - 1);
         }
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        Log.i(TAG, "initViews: dayOfMonth:" + dayOfMonth);
         wheelView3.postInvalidate();
         calendar.set(Calendar.DAY_OF_MONTH, wheelView3.getCurrentItem() + 1);
         curSelect.setText(format.format(calendar.getTime()));
+    }
+
+    private void resetTextColor() {
+        startTimeView.setTextColor(0xff666666);
+        endTimeView.setTextColor(0xff666666);
+        curSelect.setTextColor(0xff007AFF);
     }
 
     private long curMillis() {

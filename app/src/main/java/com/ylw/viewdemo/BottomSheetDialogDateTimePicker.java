@@ -21,11 +21,11 @@ import java.util.Locale;
  * <p>
  * Created by 袁立位 on 2019/2/18 15:50.
  */
-public class BottomSheetDialogTimePicker {
+public class BottomSheetDialogDateTimePicker {
 
     private Activity context;
 
-    public BottomSheetDialogTimePicker(MainMenuActivity activity) {
+    public BottomSheetDialogDateTimePicker(MainMenuActivity activity) {
         this.context = activity;
     }
 

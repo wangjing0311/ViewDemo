@@ -27,7 +27,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void showTimePickerDialog(View view) {
-        new BottomSheetDialogTimePicker(this).show(date -> {
+        new BottomSheetDialogDateTimePicker(this).show(date -> {
             Toast.makeText(this, date.toString(), Toast.LENGTH_SHORT).show();
         });
     }
@@ -62,6 +62,16 @@ public class MainMenuActivity extends AppCompatActivity {
                 .setEndDate(calendar.getTime())
                 .show((start, end) -> {
                     Toast.makeText(this, start.toString() + " - " + end.toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    public void showDatePicker(View view) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, -3);
+        new BottomSheetDialogDatePicker(this)
+                .setStartDate(calendar.getTime())
+                .show((start) -> {
+                    Toast.makeText(this, start.toString(), Toast.LENGTH_SHORT).show();
                 });
     }
 }
